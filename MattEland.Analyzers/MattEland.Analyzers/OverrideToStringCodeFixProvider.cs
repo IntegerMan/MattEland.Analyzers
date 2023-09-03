@@ -3,14 +3,10 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MattEland.Analyzers {
@@ -20,13 +16,10 @@ namespace MattEland.Analyzers {
             get { return ImmutableArray.Create(OverrideToStringAnalyzer.DiagnosticId); }
         }
 
-        public sealed override FixAllProvider GetFixAllProvider() {
-            // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
-            return WellKnownFixAllProviders.BatchFixer;
-        }
+        public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context) {
-            var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
             Diagnostic diagnostic = context.Diagnostics.First();
             TextSpan diagnosticSpan = diagnostic.Location.SourceSpan;
@@ -38,12 +31,13 @@ namespace MattEland.Analyzers {
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: "Override ToString",
-                    createChangedSolution: c => FixAsync(context.Document, declaration),
+                    createChangedDocument: c => FixAsync(context.Document, declaration),
                     equivalenceKey: OverrideToStringAnalyzer.DiagnosticId),
                 diagnostic);
         }
 
-        private Task<Solution> FixAsync(Document document, TypeDeclarationSyntax typeDecl) {
+        private Task<Document> FixAsync(Document document, TypeDeclarationSyntax typeDecl) {
+            // Add a new override of ToString that throws a NotImplementedException
             MethodDeclarationSyntax newMethod = SyntaxFactory.MethodDeclaration(
                 SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
                 SyntaxFactory.Identifier("ToString"))
@@ -51,9 +45,12 @@ namespace MattEland.Analyzers {
                 .WithBody(SyntaxFactory.Block(
                     SyntaxFactory.ThrowStatement(SyntaxFactory.ObjectCreationExpression(SyntaxFactory.IdentifierName("NotImplementedException"))
                     .WithArgumentList(SyntaxFactory.ArgumentList()))));
+
+            // Mutate the existing type declaration with the new method, then replace the Type in a copy of the document and then return that document
             TypeDeclarationSyntax updatedTypeDecl = typeDecl.AddMembers(newMethod);
             Document updatedDoc = document.WithSyntaxRoot(typeDecl.SyntaxTree.GetRoot().ReplaceNode(typeDecl, updatedTypeDecl));
-            return Task.FromResult(updatedDoc.Project.Solution);
+
+            return Task.FromResult(updatedDoc);
         }
     }
 }

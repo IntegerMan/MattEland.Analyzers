@@ -1,3 +1,5 @@
-﻿; Shipped analyzer releases
-; https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md
+﻿## Version 1.0.0
 
+Rule ID | Category | Severity | Notes
+--------|----------|----------|--------------------
+ME1001 | Maintainability | Info | OverrideToStringAnalyzer
