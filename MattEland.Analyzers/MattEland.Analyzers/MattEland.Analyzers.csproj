@@ -1,34 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <IsPackable>true</IsPackable>
-	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<Title>MattEland.Analyzers</Title>
-	<Authors>Matt Eland</Authors>
-	<RepositoryUrl>https://github.com/IntegerMan/MattEland.Analyzers</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
-	<PackageReadmeFile>AnalyzerReleases.Shipped.md</PackageReadmeFile>
-	<Copyright>Matt Eland</Copyright>
-	<Description>A set of custom Rosyln Analyzers for use in my own projects and for learning more about Roslyn analyzers</Description>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<Title>MattEland.Analyzers</Title>
+		<Authors>Matt Eland</Authors>
+		<Copyright>Matt Eland</Copyright>
+		<Description>A set of custom Rosyln Analyzers for use in my own projects and for learning more about Roslyn analyzers</Description>
+		<PackageId>MattEland.Analyzers</PackageId>
+		<PackageVersion>1.0.1</PackageVersion>
+		<PackageReleaseNotes>Changed package settings because the analyzer wasn't being bundled.</PackageReleaseNotes>
+		<RepositoryUrl>https://github.com/IntegerMan/MattEland.Analyzers</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageReadmeFile>AnalyzerReleases.Shipped.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Update="AnalyzerReleases.Shipped.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="AnalyzerReleases.Shipped.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="$(OutputPath)\MattEland.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
 
 </Project>
