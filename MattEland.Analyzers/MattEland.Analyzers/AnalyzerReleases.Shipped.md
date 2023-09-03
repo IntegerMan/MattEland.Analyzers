@@ -1,5 +1,7 @@
-﻿## Version 1.0.0
+﻿## Release 1.0
+
+### New Rules
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------
-ME1001 | Maintainability | Info | OverrideToStringAnalyzer
+ME1001  | Maintainability | Info     | OverrideToStringAnalyzer
