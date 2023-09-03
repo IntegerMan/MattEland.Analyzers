@@ -2,14 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IsPackable>false</IsPackable>
-
-    <!-- Avoid ID conflicts with the package project. -->
-    <PackageId>*$(MSBuildProjectFile)*</PackageId>
+    <IsPackable>true</IsPackable>
 	<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<Title>MattEland.Analyzers</Title>
 	<Authors>Matt Eland</Authors>
+	<RepositoryUrl>https://github.com/IntegerMan/MattEland.Analyzers</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageReadmeFile>AnalyzerReleases.Shipped.md</PackageReadmeFile>
+	<Copyright>Matt Eland</Copyright>
+	<Description>A set of custom Rosyln Analyzers for use in my own projects and for learning more about Roslyn analyzers</Description>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +22,13 @@
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AnalyzerReleases.Shipped.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
