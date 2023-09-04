@@ -1,5 +1,5 @@
 ﻿namespace MattEland.Analyzers.AnalyzeMe {
-    public class Program {
+    internal class Program {
         private static void Main(string[] args) {
             Console.WriteLine("Hello, World!");
         }

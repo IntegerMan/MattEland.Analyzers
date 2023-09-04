@@ -13,13 +13,16 @@
 		<Copyright>Matt Eland</Copyright>
 		<Description>A set of custom Rosyln Analyzers for use in my own projects and for learning more about Roslyn analyzers</Description>
 		<PackageId>MattEland.Analyzers</PackageId>
-		<PackageVersion>1.0.1</PackageVersion>
-		<PackageReleaseNotes>Changed package settings because the analyzer wasn't being bundled.</PackageReleaseNotes>
+		<PackageVersion>1.1.0</PackageVersion>
+		<PackageReleaseNotes>Added a Make Public refactoring.</PackageReleaseNotes>
 		<RepositoryUrl>https://github.com/IntegerMan/MattEland.Analyzers</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageReadmeFile>AnalyzerReleases.Shipped.md</PackageReadmeFile>
+		<PackageIcon>Logo.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://github.com/IntegerMan/MattEland.Analyzers</PackageProjectUrl>
+		<PackageTags>roslyn-analyzers;refactoring;code-analysis</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -40,6 +43,17 @@
 
 	<ItemGroup>
 		<None Include="$(OutputPath)\MattEland.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+		<None Include="..\..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Logo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
 
 </Project>
